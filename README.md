@@ -1,6 +1,6 @@
 # Combat Server
-
-실시간 멀티플레이어 게임의 전투 로직을 처리하는 고성능 게임 서버로, 다수의 동시 세션과 복잡한 게임 모드를 안정적으로 지원합니다.
+크로매틱소울 AFK Raid의 실시간 전투 서버
+MO 실시간 서버
 
 ## Tech Stack
 
@@ -8,21 +8,9 @@
 - **C#** (.NET Framework)
 - **Windows Service** 지원 (콘솔/서비스 모드)
 
-### Networking
-- **AsyncTcpSocket** - 비동기 TCP 소켓 통신
-- **Socket Pooling** - 연결 풀링을 통한 성능 최적화
-
 ### Data & Communication
 - **StackExchange.Redis** - Redis 클라이언트 라이브러리
 - **Newtonsoft.Json** - JSON 직렬화/역직렬화
-
-### Logging & Monitoring
-- **Log4Net** - 구조화된 로깅 시스템
-- **Custom Combat Log** - 게임 이벤트 전용 로깅
-
-### Infrastructure
-- **ThreadPool** - 동적 스레드 관리
-- **Concurrent Collections** - 스레드 안전 컬렉션 (ConcurrentDictionary, ConcurrentQueue)
 
 ## Features
 
