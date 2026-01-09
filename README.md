@@ -32,6 +32,54 @@ MO 실시간 서버
 ### 게임 데이터 버전 관리
 `ServerGameDataManager`가 Redis에서 최신 리비전 정보를 조회하고, 필요한 게임 데이터 파일을 자동으로 다운로드합니다. 리비전별로 게임 데이터를 관리하여 무중단 업데이트를 지원합니다.
 
-## Architecture
+## 🏗️ Server Architecture
 
-### 시스템 구조
+이 프로젝트는 **Web Server**와 **Dedicated Server**로 구성된 하이브리드 아키텍처를 따릅니다.
+클라이언트는 웹 서버를 통해 인증 및 매치메이킹을 수행한 후, 배정된 데디케이티드 서버에 접속하여 실시간 게임을 진행합니다.
+
+### 📊 Architecture Diagram
+
+```mermaid
+flowchart TD
+%% --- 스타일 정의 (다크 모드 최적화) ---
+    %% Client: 깊은 보라/자주색 (눈이 편안함)
+    classDef client fill:#4b2e3f,stroke:#aaa,stroke-width:2px,color:#eee
+    %% Server: 깊은 네이비 (차분함)
+    classDef server fill:#283d56,stroke:#aaa,stroke-width:2px,color:#eee
+    %% Storage: 깊은 올리브/브라운 (안정감)
+    classDef storage fill:#544a2d,stroke:#aaa,stroke-width:2px,color:#eee
+
+    %% Subgraph 스타일 (점선 테두리)
+    classDef subgraph_style fill:none,stroke:#666,stroke-width:1px,stroke-dasharray: 5 5,color:#ccc
+    
+    %% Subgraph 타이틀 색상 조정
+    classDef subgraph_style fill:none,stroke:#666,stroke-width:1px,color:#ccc,stroke-dasharray: 5 5;
+    %% -----------------------------------
+
+    %% Nodes (수정됨: 끝부분 콜론 제거 및 텍스트 따옴표 처리)
+    Client([User Client]):::client
+    Web["Web API Server"]:::server
+    DS["Dedicated Server"]:::server
+    Redis[("Redis")]:::storage
+    DB[("Database")]:::storage
+
+    %% Flow
+    Client -- "1. Auth & Request API" --> Web
+    Client -- "2. Connect & Play" --> DS
+
+    %% Backend Connection
+    Web <-- "Data Sync" --> Redis
+    DS <-- "Data Sync" --> Redis
+    
+    Web <-- "Read / Write" --> DB
+
+    %% Subgraph for Logical Grouping
+    subgraph Backend [Backend Infrastructure]
+        direction TB
+        Web
+        DS
+        Redis
+        DB
+    end
+    %% Subgraph 스타일 적용
+    class Backend subgraph_style
