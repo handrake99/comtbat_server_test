@@ -1,6 +1,7 @@
 # Combat Server
 크로매틱소울 AFK Raid의 실시간 전투 서버
 MO 실시간 서버
+일부 핵심 코드만 발췌
 
 ## Tech Stack
 
